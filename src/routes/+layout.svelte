@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>Nostr Game Lobby</title>
+</svelte:head>
+
 <main>
 	<slot></slot>
 </main>
