@@ -7,7 +7,7 @@
 		latestEach,
 		uniq
 	} from 'rx-nostr';
-	import { filter, tap } from 'rxjs';
+	import { filter } from 'rxjs';
 	import type { Event } from 'nostr-typedef';
 	import type { PageData } from './$types';
 	import { chunk, random } from '$lib/array';

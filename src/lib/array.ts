@@ -5,5 +5,5 @@ export function chunk<T>(array: T[], size: number): T[][] {
 }
 
 export function random<T>(array: T[]): T[] {
-	return array.toSorted(() => 0.5 - Math.random())
+	return array.toSorted(() => 0.5 - Math.random());
 }

@@ -28,7 +28,7 @@ export class Metadata {
 }
 
 export function alternativeName(pubkey: string): string {
-    return nip19.npubEncode(pubkey).substring(0, 'npub1'.length + 7)
+	return nip19.npubEncode(pubkey).substring(0, 'npub1'.length + 7);
 }
 
 export function robohash(pubkey: string): string {
