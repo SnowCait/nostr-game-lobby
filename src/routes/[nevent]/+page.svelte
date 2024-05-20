@@ -35,7 +35,9 @@
 		.use(roomReq)
 		.pipe(uniq())
 		.subscribe(({ event }) => {
+			console.debug('[room]', event);
 			room = event;
+			join(event.pubkey);
 		});
 	rxNostr
 		.use(metadataReq)
@@ -55,19 +57,30 @@
 		.use(rxReq)
 		.pipe(
 			uniq(),
-			filter(({ event }) => !event.content.includes('https://')),
-			tap(({ event }) => metadataReq.emit([{ kinds: [0], authors: [event.pubkey], limit: 1 }]))
+			filter(({ event }) => !event.content.includes('https://'))
 		)
 		.subscribe(({ event }) => {
-			console.debug('[event]', r, event);
-			pubkeys.add(event.pubkey);
-			pubkeys = pubkeys;
+			console.debug('[join]', r, event);
+			join(event.pubkey);
 		});
 
 	onMount(() => {
 		roomReq.emit([{ ids: [data.id] }]);
 		rxReq.emit([{ kinds: [1], '#e': [data.id] }]);
 	});
+
+	function join(pubkey: string): void {
+		fetchMetadata(pubkey);
+		pubkeys.add(pubkey);
+		pubkeys = pubkeys;
+	}
+
+	function fetchMetadata(pubkey: string): void {
+		if (metadataMap.has(pubkey)) {
+			return;
+		}
+		metadataReq.emit([{ kinds: [0], authors: [pubkey], limit: 1 }]);
+	}
 </script>
 
 <p>{room?.content ?? 'room'}</p>
